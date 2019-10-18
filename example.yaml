@@ -1,0 +1,145 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-1
+  labels:
+    app: example-1
+    app: example-2
+spec:
+  replicas: 2
+  revisionHistoryLimit: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 50%
+  selector:
+    matchLabels:
+      app: example-1
+  template:
+    metadata:
+      labels:
+        app: example-1a
+        env: uat
+      annotations:
+        imageregistry: "https://hub.docker.com/"
+    spec:
+      containers:
+      - name: example-1a
+        image: gcr.io/example-1/example-1a
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: LOG_LEVEL
+            value: INFO
+        ports:
+        - containerPort: 7777
+          name: http
+          protocol: TCP
+          protocol: TCP
+        - containerPort: 7777
+          name: http
+          protocol: TCP
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 300m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 256Mi
+      
+      - name: example-1a
+        image: gcr.io/example-1/example-1a
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: LOG_LEVEL
+            value: INFO
+        ports:
+        - containerPort: 8888
+          name: http
+          protocol: TCP
+        - containerPort: 8888
+          name: http
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 300m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 256Mi
+
+      - name: example-1b
+        image: gcr.io/example-1/example-1b
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: LOG_LEVEL
+            value: INFO
+        ports:
+        - containerPort: 7777
+          name: http
+          protocol: TCP
+        - containerPort: 9999
+          name: http
+          protocol: TCP
+        - containerPort: 9999
+          name: http
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 300m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: example-2
+spec:
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+    protocol: TCP
+  selector:
+    app: example-2
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: example-3
+spec:
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+    protocol: TCP
+  selector:
+    app: example-3
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: example-4
+spec:
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+    protocol: TCP
+  selector:
+    app: example-4
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: example-5
+spec:
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+    protocol: TCP
+  selector:
+    app: example-5
